@@ -43,20 +43,19 @@ with pdfplumber.open("pdf_files/Tracking data 2026-08-19 - 2026-08-25.pdf") as p
         else:
             daily_rows.append(row)    
                     
-print(f"Summary table rows: {len(daily_rows)}")
-print(f"Total meal rows collected: {len(meal_rows)}")
-
 for rows in daily_rows:
     for i, info in enumerate(rows):
-        if info[0] == 'S':
+        if info[0] == 'S': # one column contains title for summary and data, which we dont need to convert
             continue
         rows[i] = float(rows[i])
 
 for rows in meal_rows:
     for i, info in enumerate(rows):
-        if any(char.isalpha() for char in info):
+        if any(char.isalpha() for char in info): # if any letters we skip
             continue
-        elif '-' in info:
+        elif '-' in info: # one column contains data, which we dont need to convert
             continue
         rows[i] = float(rows[i])
-        
+
+print(f"Summary table rows: {len(daily_rows)}")
+print(f"Total meal rows collected: {len(meal_rows)}")
