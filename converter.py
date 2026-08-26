@@ -18,7 +18,7 @@ daily_rows = [] # we want to group up the summarry part here
 average_row = None
 target_row = None
 
-with pdfplumber.open("pdf_files/Tracking data 2026-08-19 - 2026-08-25.pdf") as pdf: # open the pdf
+with pdfplumber.open("pdf_files/Tracking data 2026-08-17 - 2026-08-23.pdf") as pdf: # open the pdf
     for page in pdf.pages: # loop through each page
         tables = page.extract_tables(table_settings) # exctract table with out table settings
         # we check our tables and want to divide the meal log and daily summary, we do this by checking how many columns since meal and daily has different amount of columns
