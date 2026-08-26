@@ -62,7 +62,6 @@ print(f"Summary table rows: {len(daily_rows)}")
 print(f"Total meal rows collected: {len(meal_rows)}")
 
 # this section is to create a database with our tables
-
 conn = sqlite3.connect("nutrition.db")
 cursor = conn.cursor()
 
@@ -112,6 +111,7 @@ cursor.execute("""
 
 daily_sql = "INSERT INTO daily_summary_log (date, calories, carbs, carbs_fiber, carbs_sugar, fat, fat_saturated, fat_unsaturated, cholesterol, protein, potassium, sodium) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
+# since we have a list with correct amount of value we can just loop through and push each row
 for rows in daily_rows:
     cursor.execute(daily_sql, rows)
 
