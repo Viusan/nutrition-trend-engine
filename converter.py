@@ -1,4 +1,5 @@
 import pdfplumber
+import sqlite3
 
 table_settings = {
     # raising tolerance up to 5 allows endpoints to be more flexible and treat them as connected or as the same line
@@ -59,3 +60,59 @@ for rows in meal_rows:
 
 print(f"Summary table rows: {len(daily_rows)}")
 print(f"Total meal rows collected: {len(meal_rows)}")
+
+# this section is to create a database with our tables
+
+conn = sqlite3.connect("nutrition.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS food_log(
+        date TEXT,
+        meal_type TEXT,
+        title TEXT,
+        amount REAL,
+        serving TEXT,
+        amount_grams REAL,
+        calories REAL,
+        carbs REAL,
+        carbs_fiber REAL,
+        carbs_sugar REAL,
+        fat REAL,
+        fat_saturated REAL,
+        fat_unsaturated REAL,
+        cholesterol REAL,
+        protein REAL,
+        potassium REAL,
+        sodium REAL
+    )
+""")
+
+sql = "INSERT INTO food_log (date, meal_type, title, amount, serving, amount_grams, calories, carbs, carbs_fiber, carbs_sugar, fat, fat_saturated, fat_unsaturated, cholesterol, protein, potassium, sodium) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+for rows in meal_rows:
+    cursor.execute(sql, rows)
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS daily_summary_log(
+        date TEXT,
+        calories REAL,
+        carbs REAL,
+        carbs_fiber REAL,
+        carbs_sugar REAL,
+        fat REAL,
+        fat_saturated REAL,
+        fat_unsaturated REAL,
+        cholesterol REAL,
+        protein REAL,
+        potassium REAL,
+        sodium REAL
+    )
+""")
+
+daily_sql = "INSERT INTO daily_summary_log (date, calories, carbs, carbs_fiber, carbs_sugar, fat, fat_saturated, fat_unsaturated, cholesterol, protein, potassium, sodium) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+for rows in daily_rows:
+    cursor.execute(daily_sql, rows)
+
+conn.commit()
