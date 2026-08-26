@@ -45,3 +45,14 @@ with pdfplumber.open("pdf_files/Tracking data 2026-08-19 - 2026-08-25.pdf") as p
                     
 print(f"Summary table rows: {len(daily_rows)}")
 print(f"Total meal rows collected: {len(meal_rows)}")
+
+for rows in daily_rows:
+    for i, info in enumerate(rows):
+        if info[0] == 'S':
+            continue
+        rows[i] = float(rows[i])
+
+print(type(daily_rows[1][1]))
+
+#daily_rows[0][1] = float(daily_rows[0][1])
+#print(daily_rows, type(daily_rows[0][1]))
