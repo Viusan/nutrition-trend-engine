@@ -1,6 +1,8 @@
 import pdfplumber
 import sqlite3
 
+from pathlib import Path
+
 table_settings = {
     # raising tolerance up to 5 allows endpoints to be more flexible and treat them as connected or as the same line
     # basically if two lines are close enough, treat them as touching.
@@ -62,6 +64,12 @@ print(f"Summary table rows: {len(daily_rows)}")
 print(f"Total meal rows collected: {len(meal_rows)}")
 
 # this section is to create a database with our tables
+
+# this python file should create a new database every time since if i were to add multiple weeks later, the data would be consistant and not create duplicates
+db_file = Path("nutrition.db")
+if db_file.exists():
+    db_file.unlink()
+
 conn = sqlite3.connect("nutrition.db")
 cursor = conn.cursor()
 
