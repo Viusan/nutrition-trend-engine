@@ -52,7 +52,11 @@ for rows in daily_rows:
             continue
         rows[i] = float(rows[i])
 
-print(type(daily_rows[1][1]))
-
-#daily_rows[0][1] = float(daily_rows[0][1])
-#print(daily_rows, type(daily_rows[0][1]))
+for rows in meal_rows:
+    for i, info in enumerate(rows):
+        if any(char.isalpha() for char in info):
+            continue
+        elif '-' in info:
+            continue
+        rows[i] = float(rows[i])
+        
