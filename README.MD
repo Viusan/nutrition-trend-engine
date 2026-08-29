@@ -1,10 +1,9 @@
 # Nutrition Trend Engine
+Made this as a fun side project to learn how to compute messy data and test out how to use a LLM's API
 
 A pipeline that parses real nutrition-tracking exports (from [Lifesum](https://lifesum.com)), stores them in a structured database, computes real week-over-week trends and goal-adherence stats, and uses a language model **only** to phrase the already-computed findings into a short, readable summary.
 
 This is not a GPT wrapper. The model never sees raw logs and never does any math and every number in the final output is calculated by this project's own code before the model ever runs.
-
-Made this as a fun side project to learn how to compute messy data and test out how to use a LLM's API
 
 ## What it does
 
