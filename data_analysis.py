@@ -1,5 +1,7 @@
 import sqlite3
 
+from datetime import datetime
+
 CALORIE_TARGET = 1900
 PROTEIN_TARGET = 140
 CARBS_TARGET = 300
@@ -30,3 +32,19 @@ print(f"Calorie change: {calorie_development}%\nProtein change: {protein_develop
 print(f"Missed/Hit Calorie Target: {calorie_target_latest_week}%")
 print(f"Missed/Hit Protein Target: {protein_target_latest_week}%")
 print(f"Missed/Hit Carbs Target: {carbs_target_latest_week}%")
+
+cursor.execute("SELECT date, calories, protein, carbs FROM daily_summary_log WHERE strftime('%Y-%W', date) = ? ORDER BY strftime('%Y-%W', date)", (rows[-1][0],))
+
+daily_data = cursor.fetchall()
+
+daily_dict = {}
+
+for row in daily_data:
+    parsed_date = datetime.strptime(row[0], "%Y-%m-%d")
+    day_name = parsed_date.strftime("%A")
+    if row[1] > CALORIE_TARGET:
+        daily_dict[day_name] = 1
+    else:
+        daily_dict[day_name] = 0
+
+print(daily_dict)
