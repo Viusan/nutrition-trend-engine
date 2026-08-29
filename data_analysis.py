@@ -12,10 +12,10 @@ cursor.execute("SELECT strftime('%Y-%W', date) AS week, FLOOR(AVG(calories)), FL
 rows = cursor.fetchall()
 
 def percentage_change(new, old):
-    return int(((new-old)/old)*100)
+    return round(((new-old)/old)*100)
 
 calorie_development = percentage_change(rows[-1][1], rows[-2][1])
 protein_development = percentage_change(rows[-1][2], rows[-2][2])
-carbs_development = percentage_change(rows[-1][2], rows[-2][2])
+carbs_development = percentage_change(rows[-1][3], rows[-2][3])
 
 print(f"Calorie change: {calorie_development}%\nProtein change: {protein_development}%\nCarbs change: {carbs_development}%")
