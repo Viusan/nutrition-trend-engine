@@ -4,6 +4,8 @@ A pipeline that parses real nutrition-tracking exports (from [Lifesum](https://l
 
 This is not a GPT wrapper. The model never sees raw logs and never does any math and every number in the final output is calculated by this project's own code before the model ever runs.
 
+Made this as a fun side project to learn how to compute messy data and test out how to use a LLM's API
+
 ## What it does
 
 Given one or more weekly PDF exports from Lifesum, this project (so far i have only created for two weeks):
