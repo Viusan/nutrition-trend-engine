@@ -33,11 +33,6 @@ calorie_target_latest_week = percentage_change(rows[-1][1], CALORIE_TARGET)
 protein_target_latest_week = percentage_change(rows[-1][2], PROTEIN_TARGET)
 carbs_target_latest_week = percentage_change(rows[-1][3], CARBS_TARGET)
 
-#print(f"Weekly calorie change: {calorie_development}%\nWeekly protein change: {protein_development}%\nWeekly carbs change: {carbs_development}%")
-#print(f"Missed/Hit Calorie Target: {calorie_target_latest_week}%")
-#print(f"Missed/Hit Protein Target: {protein_target_latest_week}%")
-#print(f"Missed/Hit Carbs Target: {carbs_target_latest_week}%")
-
 # this part is to check each day of the latest week if i hit my calorie goal
 cursor.execute("SELECT date, calories, protein, carbs FROM daily_summary_log WHERE strftime('%Y-%W', date) = ? ORDER BY strftime('%Y-%W', date)", (rows[-1][0],))
 daily_data = cursor.fetchall()
@@ -54,6 +49,7 @@ for row in daily_data:
     else:
         daily_dict[day_name] = 0
 
+# creating a dict with the data i want to use in my prompt
 insights = {
     "calorie_change": calorie_development,
     "protein_change": protein_development,
@@ -64,4 +60,5 @@ insights = {
     "daily_hits": daily_dict,
 }
 
+# function that runs prompt calling api 
 generate_insight(insights)
