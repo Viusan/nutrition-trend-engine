@@ -1,5 +1,9 @@
 import sqlite3
 
+CALORIE_TARGET = 1900
+PROTEIN_TARGET = 140
+CARBS_TARGET = 300
+
 conn = sqlite3.connect("nutrition.db")
 cursor = conn.cursor()
 
@@ -18,4 +22,11 @@ calorie_development = percentage_change(rows[-1][1], rows[-2][1])
 protein_development = percentage_change(rows[-1][2], rows[-2][2])
 carbs_development = percentage_change(rows[-1][3], rows[-2][3])
 
+calorie_target_latest_week = percentage_change(rows[-1][1], CALORIE_TARGET)
+protein_target_latest_week = percentage_change(rows[-1][2], PROTEIN_TARGET)
+carbs_target_latest_week = percentage_change(rows[-1][3], CARBS_TARGET)
+
 print(f"Calorie change: {calorie_development}%\nProtein change: {protein_development}%\nCarbs change: {carbs_development}%")
+print(f"Missed/Hit Calorie Target: {calorie_target_latest_week}%")
+print(f"Missed/Hit Protein Target: {protein_target_latest_week}%")
+print(f"Missed/Hit Carbs Target: {carbs_target_latest_week}%")
