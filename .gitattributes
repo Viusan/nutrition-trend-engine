@@ -1,0 +1,4 @@
+#linux uses LF to end lines, windows uses CRLF
+#windows will convert automaticall to CRLF but i need LF
+#so here it says always store and check out .sh files with LF line endings regardless
+*.sh text eol=lf
