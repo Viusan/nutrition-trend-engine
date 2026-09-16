@@ -1,0 +1,5 @@
+.env
+nutrition.db
+__pychache*__/
+.git/
+pdf_folder/
