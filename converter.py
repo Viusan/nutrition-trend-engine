@@ -1,5 +1,6 @@
 import pdfplumber
 import sqlite3
+import os
 
 from pathlib import Path
 
@@ -9,7 +10,9 @@ if db_file.exists():
     db_file.unlink()
 
 # this section is to create a database with our tables
-conn = sqlite3.connect("nutrition.db")
+#if dir exists use that cause after container is closed the data added would be lost
+db_path = os.environ.get("DB_PATH", "nutrition.db")
+conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
 table_settings = {
@@ -21,7 +24,7 @@ table_settings = {
     "join_tolerance": 5,
 }
 
-pdf_folder = Path("pdf_folder")
+pdf_folder = Path(os.environ.get("PDF_DIR", "pdf_folder")) #this checks if a there is a env variable PDF_DIR, if not then use pdf_folder. This is cause if we do weekly update on pdf folder then we would need to re-run docker build every time.
 for pdf_path in pdf_folder.glob("*.pdf"):
     print(pdf_path)
     summary_table = None 

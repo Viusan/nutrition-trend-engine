@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 from llm_insight import generate_insight
 from datetime import datetime
@@ -8,7 +9,8 @@ CALORIE_TARGET = 1900
 PROTEIN_TARGET = 140
 CARBS_TARGET = 300
 
-conn = sqlite3.connect("nutrition.db")
+db_path = os.environ.get("DB_PATH", "nutrition.db")
+conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
 #this will automate grouping by week so we dont need to hardcode each week
