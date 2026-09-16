@@ -1,5 +1,5 @@
 # Nutrition Trend Engine
-Made this as a fun side project to learn how to compute messy data and test out how to use a LLM's API
+Made this as a fun side project to learn how to compute messy data, test out how to use an LLM's API, and get hands-on with containerizing a small data pipeline with Docker.
 
 A pipeline that parses real nutrition-tracking exports (from [Lifesum](https://lifesum.com)), stores them in a structured database, computes real week-over-week trends and goal-adherence stats, and uses a language model **only** to phrase the already-computed findings into a short, readable summary.
 
@@ -46,9 +46,9 @@ Running `converter.py` wipes and rebuilds the database from scratch each time, f
 
 ## Setup
 
-1. Install dependencies:
+1. Install docker:
    ```
-   pip install pdfplumber anthropic python-dotenv
+   [Docker Desktop](https://www.docker.com/products/docker-desktop/).
    ```
 2. Get an API key and add a small amount of usage credit (here i used claude's API).
 3. Create a `.env` file in the project root:
@@ -57,13 +57,19 @@ Running `converter.py` wipes and rebuilds the database from scratch each time, f
    ```
 4. Set your own nutrition targets at the top of `data_analysis.py` (`CALORIE_TARGET`, `PROTEIN_TARGET`, `CARBS_TARGET`). These are personal and not pulled from Lifesum, since lifesums own target data wasn't reliable in testing.
 5. Export weekly tracking data from Lifesum as PDF and place the file(s) in the PDF input folder.
-
+6. Build the image: 
+   ```
+   docker build -t lifesum-pipline .
+   ```
+   No local Python installation, virtual environment, or dependency management needed — everything the pipeline requires is installed inside the container.
 ## Usage
 
 ```
-python converter.py       # parses all PDFs in the input folder into nutrition.db
-python data_analysis.py   # computes stats and prints a generated insight
+docker run --rm -v ${PWD}/data:/app/data -e PDF_DIR=/app/data/pdf_folder -e DB_PATH=/app/data/nutrition.db --env-file .env lifesum-pipline
 ```
+This runs full pipeline in one step. Parses every PDF from folder into nutrition.db, compute stats, and prints insight. 
+
+(On Windows Command Prompt instead of PowerShell, replace `${PWD}` with `%cd%`.)
 
 ## Limitations
 
